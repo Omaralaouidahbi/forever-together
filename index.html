@@ -123,12 +123,18 @@
             letter-spacing: 1px;
         }
 
-        @media (max-width: 650px) {
-            .main-ring-title { font-size: 3.2rem; }
-            .ring-emoji { font-size: 2.8rem; }
-            .number { font-size: 1.8rem; }
-            .time-box { min-width: 75px; padding: 12px 5px; }
-            h1 { font-size: 1rem; }
+         @media (max-width: 480px) {
+            .countdown-wrapper {
+                grid-template-columns: repeat(2, 1fr); /* 2 boxes per row */
+            }
+            /* Make the last box (Seconds) span 2 columns to center it if you want, 
+               or just let it flow */
+            .time-box:last-child {
+                grid-column: span 2;
+                max-width: 120px;
+                justify-self: center;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -215,4 +221,5 @@
         updateCountdown();
     </script>
 </body>
+
 </html>
