@@ -12,12 +12,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
         }
 
@@ -27,7 +27,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Effet des cœurs qui flottent */
         .heart {
             position: absolute;
             color: rgba(255, 255, 255, 0.5);
@@ -45,93 +44,97 @@
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Glassmorphism Card */
         .glass-card {
             background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 40px;
-            padding: 45px 25px;
+            padding: 40px 20px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             text-align: center;
-            color: #7d2ae8;
+            color: #ffffff;
+            /* Zdna margin hna bach dima ybqa b3id 3la jnab */
+            width: 85%; 
             max-width: 850px;
-            width: 92%;
             z-index: 10;
+            margin: 20px auto;
         }
 
         .main-ring-title {
             font-family: 'Great Vibes', cursive;
-            font-size: 4.5rem;
+            font-size: clamp(2.2rem, 9vw, 4.5rem);
             margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            color: #ffffff;
+            gap: 10px;
             text-shadow: 2px 4px 10px rgba(0,0,0,0.15);
         }
 
         .ring-emoji {
-            font-size: 2.8rem;
+            font-size: clamp(1.8rem, 7vw, 3.8rem);
             filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
         }
 
         h1 {
-            font-size: 1.3rem;
-            margin-top: -5px;
-            margin-bottom: 40px;
+            font-size: clamp(0.85rem, 3.5vw, 1.3rem);
+            margin-top: 10px;
+            margin-bottom: 30px;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: 600;
-            color: #313131;
+            letter-spacing: 2px;
+            font-weight: 300;
             opacity: 0.9;
         }
 
         .countdown-wrapper {
-            display: flex;
-            gap: 12px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
             justify-content: center;
-            flex-wrap: wrap;
         }
 
         .time-box {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(255, 255, 255, 0.35);
-            padding: 18px 10px;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 15px 5px;
             border-radius: 20px;
-            min-width: 105px;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .number {
-            font-size: 2.5rem;
+            font-size: clamp(1.6rem, 5.5vw, 2.5rem);
             font-weight: 800;
             line-height: 1;
-            color: #ce327a;
         }
 
         .label {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
-            margin-top: 10px;
+            margin-top: 8px;
             font-weight: 600;
-            color: #313131;
             letter-spacing: 1px;
         }
 
-         @media (max-width: 480px) {
-            .countdown-wrapper {
-                grid-template-columns: repeat(2, 1fr); /* 2 boxes per row */
+        /* --- T-3dilat dyal Mobile (Margin & Layout) --- */
+        @media (max-width: 480px) {
+            body {
+                padding: 15px; /* Margin mn jnab f l-body */
             }
-            /* Make the last box (Seconds) span 2 columns to center it if you want, 
-               or just let it flow */
+            .glass-card {
+                width: 100%; /* Daba ghadi y-prende l-espace dyal l-body minus padding */
+                padding: 30px 10px;
+                margin: 0;
+            }
+            .countdown-wrapper {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
             .time-box:last-child {
                 grid-column: span 2;
-                max-width: 120px;
+                max-width: 110px;
                 justify-self: center;
                 width: 100%;
             }
@@ -141,7 +144,7 @@
 <body>
 
     <script>
-        const heartCount = 25;
+        const heartCount = 15;
         for (let i = 0; i < heartCount; i++) {
             let heart = document.createElement('div');
             heart.className = 'heart';
@@ -188,8 +191,7 @@
     </div>
 
     <script>
-        // --- CONFIGURATION DE LA DATE ---
-        // Format: "Month Day, Year HH:MM:SS"
+        // Beddel t-tarikh dyalek hna
         const targetDate = new Date("Aug 15, 2026 00:00:00").getTime();
 
         const updateCountdown = () => {
@@ -202,24 +204,6 @@
                 return;
             }
 
-            // Calculs pour Mois, Jours, Heures, Minutes, Secondes
-            // (Moyenne de 30.44 jours par mois)
             const mths = Math.floor(distance / (1000 * 60 * 60 * 24 * 30.44));
             const d = Math.floor((distance % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
-            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const min = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const sec = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("months").innerText = mths.toString().padStart(2, '0');
-            document.getElementById("days").innerText = d.toString().padStart(2, '0');
-            document.getElementById("hours").innerText = h.toString().padStart(2, '0');
-            document.getElementById("minutes").innerText = min.toString().padStart(2, '0');
-            document.getElementById("seconds").innerText = sec.toString().padStart(2, '0');
-        };
-
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-    </script>
-</body>
-
-</html>
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (100
